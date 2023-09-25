@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws IOException {
-        File fileToRead = new File("TestComment.java");
+        File fileToRead = new File(args[0]);
         BufferedReader br = new BufferedReader(new FileReader(fileToRead));
         String line = br.readLine();
 
