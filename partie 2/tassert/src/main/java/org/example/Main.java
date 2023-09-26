@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    
+
     public static void main(String[] args) throws IOException {
         File fileToRead = new File(args[0]);
         BufferedReader br = new BufferedReader(new FileReader(fileToRead));
@@ -17,7 +17,7 @@ public class Main {
 
         Pattern pCom = Pattern.compile("^(assertArrayEquals|assertEquals|assertFalse" +
                 "|assertNotEquals|assertNotNull|assertNotSame|assertNull|assertSame|" +
-                "assertThat|assertThrows|assertTrue|fail)\\(.*\\)$");
+                "assertThat|assertThrows|assertTrue|fail)\\(.*\\);$");
         int nbrAssert = 0;
 
         while (line != null) {
