@@ -5,9 +5,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.opencsv.CSVWriter;
+
 public class Main {
-    public static void main(String[] args) throws IOException {
-        File fileToRead = new File(args[0]);
+    public static void main(String[] args) throws IOException, ArithmeticException {
+        File fileToRead = new File(args[1]);
 
         //chemin du fichier
         String filePath = fileToRead.getPath();
@@ -17,30 +19,29 @@ public class Main {
         int lineNumber = 0;
 
         //nom du paquet
+        String packageName = null;
+
         while (scanner.hasNextLine()) {
             lineNumber++;
             String line = scanner.nextLine();
             if (line.contains(targetWord)) {
                 int index = line.indexOf(targetWord);
-                String packageName = line.substring(index + targetWord.length()).trim();
+                packageName = line.substring(index + targetWord.length()).trim();
                 System.out.println("Nom du paquet: " + packageName);
             }
         }
-
         scanner.close();
 
         //nom de la classe
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String className = getClassName(line);
-                if (className != null) {
-                    System.out.println("Class Name: " + className);
-                    break; // Assuming there's only one class per file
-                }
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line, className = null;
+
+        while ((line = br.readLine()) != null) {
+            className = getClassName(line);
+            if (className != null) {
+                System.out.println("Class Name: " + className);
+                break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         //Alternative plus simple, mais pas nécessairement valide
@@ -52,11 +53,24 @@ public class Main {
 
         //tassert de la classe
         int tassertOutput = tassert(fileToRead);
-        System.out.println("tassert de la classe: " +tassertOutput);
+        System.out.println("tassert de la classe: " + tassertOutput);
 
         //tcmp de la classe
-        double tcmp = tlocOutput/tassertOutput;
+        double tcmpOutput = 0;
 
+        if (tlocOutput != 0 && tassertOutput != 0) {
+            tcmpOutput = tlocOutput / tassertOutput;
+        }
+
+        //Écriture CSV
+        String CSVPath = args[0];
+        CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
+
+
+        String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput), Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
+        writer.writeNext(currentLine);
+        writer.flush();
+        System.out.println("Données CSV créées");
     }
 
     static String getClassName(String line) {
@@ -65,8 +79,8 @@ public class Main {
             return null;
         }
 
-        Pattern pattern = Pattern.compile("class\\s+(\\w+)");
-        Matcher matcher = pattern.matcher(line);
+        Pattern classPattern = Pattern.compile("class\\s+(\\w+)");
+        Matcher matcher = classPattern.matcher(line);
         if (matcher.find()) {
             return matcher.group(1);
         }
@@ -122,10 +136,8 @@ public class Main {
             }
             line = br.readLine();
         }
-
         return (nbrAssert);
     }
-
 
 }
 
