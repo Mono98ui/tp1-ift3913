@@ -11,8 +11,8 @@ import com.opencsv.CSVWriter;
 public class Main {
     public static void main(String[] args) throws IOException, ArithmeticException {
         File fileToRead = null;
-        if(args.length >= 2){ //Chemin du fichier CSV passé en paramètre
-            fileToRead = new File(args[1]);
+        if(args.length >= 3){ //Chemin du fichier CSV passé en paramètre
+            fileToRead = new File(args[2]);
 
         } else { //Fichier d'entrée passé en paramètre seulement
             fileToRead = new File(args[0]);
@@ -73,8 +73,8 @@ public class Main {
         String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput),
                 Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
 
-        if (args.length >= 2){ //Écriture CSV
-            String CSVPath = args[0];
+        if (args.length >= 3){ //Écriture CSV
+            String CSVPath = args[1];
             File file = new File(CSVPath);
             CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
 
