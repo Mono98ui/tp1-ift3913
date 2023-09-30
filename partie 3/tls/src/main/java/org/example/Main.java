@@ -73,7 +73,7 @@ public class Main {
         String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput),
                 Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
 
-        if (args[1] != null){ //Écriture CSV
+        if (args.length >= 2){ //Écriture CSV
             String CSVPath = args[0];
             CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
 
