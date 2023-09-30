@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +10,13 @@ import com.opencsv.CSVWriter;
 
 public class Main {
     public static void main(String[] args) throws IOException, ArithmeticException {
-        File fileToRead = new File(args[1]);
+        File fileToRead = null;
+        if(args.length >= 2){ //Chemin du fichier CSV passé en paramètre
+            fileToRead = new File(args[1]);
+
+        } else { //Fichier d'entrée passé en paramètre seulement
+            fileToRead = new File(args[0]);
+        }
 
         //chemin du fichier
         String filePath = fileToRead.getPath();
@@ -59,18 +66,24 @@ public class Main {
         double tcmpOutput = 0;
 
         if (tlocOutput != 0 && tassertOutput != 0) {
-            tcmpOutput = tlocOutput / tassertOutput;
+            tcmpOutput = (double) (tlocOutput / tassertOutput);
         }
 
-        //Écriture CSV
-        String CSVPath = args[0];
-        CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
 
+        String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput),
+                Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
 
-        String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput), Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
-        writer.writeNext(currentLine);
-        writer.flush();
-        System.out.println("Données CSV créées");
+        if (args[1] != null){ //Écriture CSV
+            String CSVPath = args[0];
+            CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
+
+            writer.writeNext(currentLine);
+            writer.flush();
+            System.out.println("Données CSV insérées.");
+        } else { //Publication sur le terminal
+            System.out.println(Arrays.toString(currentLine));
+        }
+
     }
 
     static String getClassName(String line) {
