@@ -75,6 +75,7 @@ public class Main {
 
         if (args.length >= 2){ //Écriture CSV
             String CSVPath = args[0];
+            File file = new File(CSVPath);
             CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
 
             writer.writeNext(currentLine);

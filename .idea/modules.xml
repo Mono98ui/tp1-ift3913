@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/partie 2/tassert/tassert.iml" filepath="$PROJECT_DIR$/partie 2/tassert/tassert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/partie 1/tloc/tloc.iml" filepath="$PROJECT_DIR$/partie 1/tloc/tloc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/partie 3/tls/tls.iml" filepath="$PROJECT_DIR$/partie 3/tls/tls.iml" />
+    </modules>
+  </component>
+</project>
