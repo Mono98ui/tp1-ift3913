@@ -58,7 +58,7 @@ public class Main {
             }
         });
 
-        List<Node> listTloc =  arrCopy.subList(arrCopy.size() * (100-seuil) / 100, arrCopy.size());
+        List<Node> listTloc =  arrCopy.subList((arrCopy.size() * (100-seuil) / 100)-1, arrCopy.size()-1);
 
         Collections.sort(arr, new Comparator<Node>() {
 
@@ -68,7 +68,7 @@ public class Main {
             }
         });
 
-        List<Node> listTcmp = arr.subList(arr.size() * (100-seuil) / 100, arr.size());
+        List<Node> listTcmp = arr.subList((arr.size() * (100-seuil) / 100)-1, arr.size()-1);
 
         String CSVPath = csvName;
         File file = new File(CSVPath);
