@@ -27,6 +27,8 @@ public class Main {
 
         double tcmp = 0;
 
+        String[] content;
+
         public Node(String filepath, int tloc, double tcmp) {
             this.filepath = filepath;
             this.tloc = tloc;
@@ -47,8 +49,8 @@ public class Main {
         seuil = Integer.parseInt(args[args.length - 1]);
 
         resursiveListDir(new File(pathFolder).listFiles());
-
-        Collections.sort(arr, new Comparator<Node>() {
+        List<Node> arrCopy = new ArrayList<>(arr);
+        Collections.sort(arrCopy, new Comparator<Node>() {
 
             @Override
             public int compare(Node o1, Node o2) {
@@ -56,7 +58,7 @@ public class Main {
             }
         });
 
-        ArrayList<Node> tmp = arr;
+        List<Node> listTloc =  arrCopy.subList(arrCopy.size() * (100-seuil) / 100, arrCopy.size());
 
         Collections.sort(arr, new Comparator<Node>() {
 
@@ -66,9 +68,25 @@ public class Main {
             }
         });
 
-        for (int i = 0; i < arr.size() * seuil / 100; i++) {
-            if (arr.contains(tmp.get(i))) {
-                System.out.println(arr.get(i).filepath);
+        List<Node> listTcmp = arr.subList(arr.size() * (100-seuil) / 100, arr.size());
+
+        String CSVPath = csvName;
+        File file = new File(CSVPath);
+        CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
+
+        for (int i = 0; i < listTloc.size() ; i++) {
+            if (listTloc.contains(listTcmp.get(i))) {
+                System.out.println(listTloc.get(i).filepath);
+                File fileToRead = new File(listTloc.get(i).filepath);
+                if (isCsv) { //Écriture CSV
+
+                    writer.writeNext(listTloc.get(i).content);
+                    writer.flush();
+                    System.out.println("Données CSV insérées.");
+                    compteur++;
+                } else { //Publication sur le terminal
+                    System.out.println(Arrays.toString(listTloc.get(i).content));
+                }
             }
         }
 
@@ -211,22 +229,11 @@ public class Main {
         if (tlocOutput != 0 && tassertOutput != 0) {
             tcmpOutput = (double) (tlocOutput / tassertOutput);
         }
-        Node newNode = new Node(fileToRead.getAbsolutePath(), tlocOutput, tcmpOutput);
-        arr.add(newNode);
 
         String currentLine[] = {filePath, packageName, className, Integer.toString(tlocOutput),
                 Integer.toString(tassertOutput), Double.toString(tcmpOutput)};
-
-        if (isCsv) { //Écriture CSV
-            String CSVPath = compteur + fileToRead.getName() + csvName;
-            File file = new File(CSVPath);
-            CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
-
-            writer.writeNext(currentLine);
-            writer.flush();
-            System.out.println("Données CSV insérées.");
-        } else { //Publication sur le terminal
-            System.out.println(Arrays.toString(currentLine));
-        }
+        Node newNode = new Node(fileToRead.getAbsolutePath(), tlocOutput, tcmpOutput);
+        newNode.content = currentLine;
+        arr.add(newNode);
     }
 }
