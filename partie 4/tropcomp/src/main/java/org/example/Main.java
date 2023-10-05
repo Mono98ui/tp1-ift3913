@@ -17,8 +17,6 @@ public class Main {
 
     static int seuil = 0;
 
-    static int compteur = 0;
-
     static ArrayList<Node> arr;
 
     static class Node {
@@ -69,26 +67,32 @@ public class Main {
         });
 
         List<Node> listTcmp = arr.subList((arr.size() * (100-seuil) / 100)-1, arr.size()-1);
+        if (isCsv) {
+            String CSVPath = csvName;
+            File file = new File(CSVPath);
+            CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
 
-        String CSVPath = csvName;
-        File file = new File(CSVPath);
-        CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
-
-        for (int i = 0; i < listTloc.size() ; i++) {
-            if (listTloc.contains(listTcmp.get(i))) {
-                System.out.println(listTloc.get(i).filepath);
-                File fileToRead = new File(listTloc.get(i).filepath);
-                if (isCsv) { //Écriture CSV
-
+            for (int i = 0; i < listTloc.size() ; i++) {
+                if (listTloc.contains(listTcmp.get(i))) {
+                    System.out.println(listTloc.get(i).filepath);
+                    File fileToRead = new File(listTloc.get(i).filepath);
                     writer.writeNext(listTloc.get(i).content);
                     writer.flush();
                     System.out.println("Données CSV insérées.");
-                    compteur++;
-                } else { //Publication sur le terminal
+                }
+            }
+        }else{
+            for (int i = 0; i < listTloc.size() ; i++) {
+                if (listTloc.contains(listTcmp.get(i))) {
+                    System.out.println(listTloc.get(i).filepath);
+                    File fileToRead = new File(listTloc.get(i).filepath);
                     System.out.println(Arrays.toString(listTloc.get(i).content));
+
                 }
             }
         }
+
+
 
 
     }
@@ -102,7 +106,6 @@ public class Main {
                 System.out.println(f.isDirectory());
                 System.out.println(f.getName());
                 tls(f);
-                compteur++;
             }
             if (f.isDirectory()) {
                 resursiveListDir(f.listFiles());
