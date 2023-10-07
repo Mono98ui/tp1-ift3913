@@ -40,18 +40,33 @@ public class Main {
         arr = new ArrayList<Node>();
         recursiveListDir(new File(pathFolder).listFiles());
 
-        if (isCsv) {
+        if (isCsv) {// Name of the CSV file
             String CSVPath = csvName;
-            File file = new File(CSVPath);
-            CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
-            for (int i = 0; i < arr.size(); i++) {
-                File fileToRead = new File(arr.get(i).filepath);
-                writer.writeNext(arr.get(i).content);
-                writer.flush();
+            BufferedWriter writer = null;
+
+            try {
+                writer = new BufferedWriter(new FileWriter(CSVPath));
+
+                for (int i = 0; i < arr.size(); i++) {
+                    File fileToRead = new File(arr.get(i).filepath);
+                    String rep =  Arrays.toString(arr.get(i).content).replace("[","")
+                            .replace("]","")+"\n";
+                    writer.write(rep);
+                    writer.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             for (int i = 0; i < arr.size(); i++) {
-                File fileToRead = new File(arr.get(i).filepath);
                 System.out.println(Arrays.toString(arr.get(i).content));
             }
         }
