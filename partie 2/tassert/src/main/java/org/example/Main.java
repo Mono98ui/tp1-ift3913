@@ -22,7 +22,7 @@ public class Main {
 
         while (line != null) {
             line = line.trim();
-            if(pCom.matcher(line).find()){
+            if (pCom.matcher(line).find()) {
                 nbrAssert++;
             }
             line = br.readLine();

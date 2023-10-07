@@ -10,19 +10,15 @@ import com.opencsv.CSVWriter;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-
     static String csvName = "";
     static String pathFolder = "";
     static boolean isCsv = false;
-
     static ArrayList<Node> arr;
 
     static class Node {
         String filepath = "";
         int tloc = 0;
-
         double tcmp = 0;
-
         String[] content;
 
         public Node(String filepath, int tloc, double tcmp) {
@@ -42,47 +38,33 @@ public class Main {
         }
 
         arr = new ArrayList<Node>();
-
-        resursiveListDir(new File(pathFolder).listFiles());
-
-
+        recursiveListDir(new File(pathFolder).listFiles());
 
         if (isCsv) {
             String CSVPath = csvName;
             File file = new File(CSVPath);
             CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
-            for (int i = 0; i < arr.size() ; i++) {
-                System.out.println(arr.get(i).filepath);
+            for (int i = 0; i < arr.size(); i++) {
                 File fileToRead = new File(arr.get(i).filepath);
                 writer.writeNext(arr.get(i).content);
                 writer.flush();
-                System.out.println("Données CSV insérées.");
-
             }
-        }else{
-            for (int i = 0; i < arr.size() ; i++) {
-                System.out.println(arr.get(i).filepath);
+        } else {
+            for (int i = 0; i < arr.size(); i++) {
                 File fileToRead = new File(arr.get(i).filepath);
-                System.out.println(Arrays.toString(arr.get(i).content));
             }
         }
-
-
-
     }
 
-    public static void resursiveListDir(File[] dir) throws IOException {
+    public static void recursiveListDir(File[] dir) throws IOException {
         for (File f :
                 dir) {
             Pattern comp = Pattern.compile(".java$");
             if (comp.matcher(f.getName()).find()) {
-                System.out.println(f.getAbsolutePath());
-                System.out.println(f.isDirectory());
-                System.out.println(f.getName());
                 tls(f);
             }
             if (f.isDirectory()) {
-                resursiveListDir(f.listFiles());
+                recursiveListDir(f.listFiles());
             }
         }
     }
@@ -95,6 +77,7 @@ public class Main {
 
         Pattern classPattern = Pattern.compile("class\\s+(\\w+)");
         Matcher matcher = classPattern.matcher(line);
+
         if (matcher.find()) {
             return matcher.group(1);
         }
@@ -102,7 +85,6 @@ public class Main {
     }
 
     static int tloc(File fileToRead) throws IOException {
-        //System.out.println(fileToRead.getAbsolutePath());
         BufferedReader br = new BufferedReader(new FileReader(fileToRead));
         String line = br.readLine();
 
@@ -172,7 +154,6 @@ public class Main {
             if (line.contains(targetWord)) {
                 int index = line.indexOf(targetWord);
                 packageName = line.substring(index + targetWord.length()).trim();
-                System.out.println("Nom du paquet: " + packageName);
             }
         }
         scanner.close();
@@ -184,7 +165,6 @@ public class Main {
         while ((line = br.readLine()) != null) {
             className = getClassName(line);
             if (className != null) {
-                System.out.println("Class Name: " + className);
                 break;
             }
         }
@@ -194,12 +174,8 @@ public class Main {
 
         //tloc de la classe
         int tlocOutput = tloc(fileToRead);
-        System.out.println("tloc de la classe: " + tlocOutput);
-
         //tassert de la classe
         int tassertOutput = tassert(fileToRead);
-        System.out.println("tassert de la classe: " + tassertOutput);
-
         //tcmp de la classe
         double tcmpOutput = 0;
 

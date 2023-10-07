@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) throws IOException {
         File fileToRead = new File(args[0]);
-        //System.out.println(fileToRead.getAbsolutePath());
         BufferedReader br = new BufferedReader(new FileReader(fileToRead));
         String line = br.readLine();
 
@@ -25,22 +24,22 @@ public class Main {
         while (line != null) {
             line = line.trim();
 
-            if(pCom1.matcher(line).find()){
+            if (pCom1.matcher(line).find()) {
                 nbrComment++;
-            }else if(pCom2.matcher(line).find()){
+            } else if (pCom2.matcher(line).find()) {
                 isComment = true;
                 nbrComment++;
             } else if (pCom3.matcher(line).find()) {
                 isComment = false;
                 nbrComment++;
-            }else if(isComment) {
+            } else if (isComment) {
                 nbrComment++;
             }
 
             line = br.readLine();
             nbrLine++;
         }
-        System.out.println(nbrLine-nbrComment);
+        System.out.println(nbrLine - nbrComment);
 
     }
 }
