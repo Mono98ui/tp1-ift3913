@@ -52,6 +52,7 @@ public class Main {
         } else {
             for (int i = 0; i < arr.size(); i++) {
                 File fileToRead = new File(arr.get(i).filepath);
+                System.out.println(Arrays.toString(arr.get(i).content));
             }
         }
     }
