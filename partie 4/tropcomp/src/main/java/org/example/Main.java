@@ -74,11 +74,9 @@ public class Main {
 
             for (int i = 0; i < listTloc.size() ; i++) {
                 if (listTloc.contains(listTcmp.get(i))) {
-                    System.out.println(listTloc.get(i).filepath);
                     File fileToRead = new File(listTloc.get(i).filepath);
                     writer.writeNext(listTloc.get(i).content);
                     writer.flush();
-                    System.out.println("Données CSV insérées.");
                 }
             }
         }else{
