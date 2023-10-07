@@ -84,7 +84,6 @@ public class Main {
         }else{
             for (int i = 0; i < listTloc.size() ; i++) {
                 if (listTloc.contains(listTcmp.get(i))) {
-                    System.out.println(listTloc.get(i).filepath);
                     File fileToRead = new File(listTloc.get(i).filepath);
                     System.out.println(Arrays.toString(listTloc.get(i).content));
 
@@ -98,9 +97,6 @@ public class Main {
                 dir) {
             Pattern comp = Pattern.compile(".java$");
             if (comp.matcher(f.getName()).find()) {
-                System.out.println(f.getAbsolutePath());
-                System.out.println(f.isDirectory());
-                System.out.println(f.getName());
                 tls(f);
             }
             if (f.isDirectory()) {
@@ -110,7 +106,6 @@ public class Main {
     }
 
     static String getClassName(String line) {
-        // Ignore les mentions de class dans les commentaires
         if (line.trim().startsWith("//")) {
             return null;
         }
@@ -124,7 +119,6 @@ public class Main {
     }
 
     static int tloc(File fileToRead) throws IOException {
-        //System.out.println(fileToRead.getAbsolutePath());
         BufferedReader br = new BufferedReader(new FileReader(fileToRead));
         String line = br.readLine();
 
@@ -194,7 +188,6 @@ public class Main {
             if (line.contains(targetWord)) {
                 int index = line.indexOf(targetWord);
                 packageName = line.substring(index + targetWord.length()).trim();
-                System.out.println("Nom du paquet: " + packageName);
             }
         }
         scanner.close();
@@ -206,7 +199,6 @@ public class Main {
         while ((line = br.readLine()) != null) {
             className = getClassName(line);
             if (className != null) {
-                System.out.println("Class Name: " + className);
                 break;
             }
         }
@@ -216,11 +208,9 @@ public class Main {
 
         //tloc de la classe
         int tlocOutput = tloc(fileToRead);
-        System.out.println("tloc de la classe: " + tlocOutput);
 
         //tassert de la classe
         int tassertOutput = tassert(fileToRead);
-        System.out.println("tassert de la classe: " + tassertOutput);
 
         //tcmp de la classe
         double tcmpOutput = 0;
