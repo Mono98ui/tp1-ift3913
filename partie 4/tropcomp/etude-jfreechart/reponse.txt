@@ -1,0 +1,6 @@
+L’heuristique de tropcomp n'est pas très efficace en soi losrqu'il s'agit de trouver du code de test complexe. En excluant le fait
+que TLOC est beaucoup plus fiable en tant que métrique comme le révèlent les résultats aux différents seuils, la plupart des classes
+testées possèdent un TASSERT à 0 qui empêche la formule d'être appliquée adéquatement. Il est aussi important de préciser la tendance
+où plus une classe possède d'assertions, moins grandes sont les chances que le code soit complexe. Ce constat nous a incité à penser
+que l'élaboration d'autres métriques telles que la complexité cyclomatique ou même le degré de couplage sont garanties de peindre un
+portrait plus large et précis que celui offert par TLOC.
