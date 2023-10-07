@@ -69,20 +69,33 @@ public class Main {
         List<Node> listTcmp = arr.subList((arr.size() * (100-seuil) / 100)-1, arr.size()-1);
         if (isCsv) {
             String CSVPath = csvName;
-            File file = new File(CSVPath);
-            CSVWriter writer = new CSVWriter(new FileWriter(CSVPath));
+            BufferedWriter writer = null;
 
-            for (int i = 0; i < listTloc.size() ; i++) {
-                if (listTloc.contains(listTcmp.get(i))) {
-                    File fileToRead = new File(listTloc.get(i).filepath);
-                    writer.writeNext(listTloc.get(i).content);
-                    writer.flush();
+            try {
+                writer = new BufferedWriter(new FileWriter(CSVPath));
+
+                for (int i = 0; i < listTloc.size() ; i++) {
+                    if (listTloc.contains(listTcmp.get(i))) {
+                        String rep =  Arrays.toString(listTloc.get(i).content).replace("[","")
+                                .replace("]","")+"\n";
+                        writer.write(rep);
+                        writer.flush();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }else{
             for (int i = 0; i < listTloc.size() ; i++) {
                 if (listTloc.contains(listTcmp.get(i))) {
-                    File fileToRead = new File(listTloc.get(i).filepath);
                     System.out.println(Arrays.toString(listTloc.get(i).content));
 
                 }
