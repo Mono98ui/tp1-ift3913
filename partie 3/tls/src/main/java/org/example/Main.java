@@ -5,8 +5,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.opencsv.CSVWriter;
-
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -48,7 +46,6 @@ public class Main {
                 writer = new BufferedWriter(new FileWriter(CSVPath));
 
                 for (int i = 0; i < arr.size(); i++) {
-                    File fileToRead = new File(arr.get(i).filepath);
                     String rep =  Arrays.toString(arr.get(i).content).replace("[","")
                             .replace("]","")+"\n";
                     writer.write(rep);
